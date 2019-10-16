@@ -1,0 +1,21 @@
+#listaArticulos li{
+	border: 1px solid;
+	display: inline-block;
+	height: 150px;
+	list-style: none;
+  width: 200px;
+
+
+}
+/*#carrito div {
+
+display: inline-block;
+align-content: center;
+text-align: center;
+
+}*/
+#carrito img {
+height: 85px;
+width: 85px;
+}
+

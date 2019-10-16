@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+<!-- Autor: felipe pinto
+	referencia: https://www.youtube.com/watch?v=TiXgNDjN3eM&pbjreload=10
+ -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="UTF-8">
+	<title>drag&drop</title>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+	<script type="text/javascript">
+		$(document).on('ready',function(){
+
+			$('#listaArticulos li').draggable({
+				helper:'clone'
+			});
+
+			$('#carrito').droppable({
+				drop:eventoDrop
+			});
+
+			function eventoDrop(evento,ui){
+				var draggable=ui.draggable;
+				var existencia =  parseInt(draggable.children('.existencia').text());
+				// alert('me has soltado :'+draggable.data('articulo'));
+
+             
+				
+				 if(existencia>0){
+				var precio = parseFloat(draggable.children('.precio').text());
+			 	var total = parseFloat($('#total').text());
+			 	total =total+precio;
+
+				 existencia--;
+				 draggable.children('.existencia').text(existencia);
+				  $('#total').text(total);		
+
+				 	
+				
+				 }else{
+				 	alert("no hay articulos"+draggable.data('articulo'));
+				}	
+			  }
+
+			});
+	</script>
+</head>
+<body>
+	<h1>carrito de compras</h1> 
+	<section id="Articulos"> 
+		<ul id="listaArticulos"> 
+
+			<li style="background:white" data-articulo="Tomate">
+				Tomate Precio:$				
+				<span class="precio">100</span>	
+				<br>	
+				 Existencia : <span class="existencia">20</span>
+			</li>
+
+			<li style="background:red" data-articulo="Arroz">
+				Arroz Precio:$
+			<span class="precio">200</span>	
+			<br>	
+			Existencia : <span class="existencia">30</span> 
+			</li>
+
+			<li style="background:brown" data-articulo="Papa">
+				Papa Precio:$
+				<span class="precio">300</span>	
+			<br>	
+			Existencia : <span class="existencia">40</span> 
+			</li>
+
+			<li style="background:yellow" data-articulo="Cereal">
+				Cereal Precio:$
+				<span class="precio">400</span>
+				<br>	
+				 Existencia : <span class="existencia">50</span>
+
+			</li>
+
+		</ul>
+	</section>
+
+<section id="carrito">	
+	<img src="img/carrito.svg">
+	<span>$<span id="total">0</span></span>	
+</section>
+
+</body>
+</html>
