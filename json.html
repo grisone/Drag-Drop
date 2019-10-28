@@ -3,41 +3,78 @@
 <head>
 	<meta charset="UTF-8">
 	<title>web servise con Jquery y Json</title>
-
-<!-- 	
+<!--
 	decripcion : trae imagenes de web service flickr con Json
 	fuente : https://www.youtube.com/watch?v=7TMt6FItfv4
- -->	
-</head>
-<body>
-	<input type="text" id="b">
-	<input type="button" id="buscar" value="Buscar">	
-
-	<div id="imagenes"></div>
-	
+ -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	
 	<script>
-		$(document).on("ready", main);
-		function main(){
-			$("#buscar").on("click", function(){
-				var texto = "";
-				var tag =  $("#b").val();
-				$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags="+tag+"&tagmode=any&format=json&jsoncallback=?", function(datos){
+	
+		function cargarImagenes(){
+			var tag =  $("#b").val();
+			var url = "http://api.flickr.com/services/feeds/photos_public.gne?tags="+tag+"&tagmode=any&format=json&jsoncallback=?";
+			
+			$.getJSON(url,
+				function(datos){
+					var texto = "";
+					
 					$.each(datos.items, function(i, item){
-						texto += "<div >";
-						texto +="<img src='" + item.media.m +"' />";
-						texto +="</div>";		
-
+						
+						console.log( item );
+						console.log(JSON.stringify( item ));
+					
+						texto += '<div class="col-sm-3">';
+						texto +='<img class="img-rounded" src="' + item.media.m +'" >';
+						texto +='</div>';		
 					});
 					$("#imagenes").html(texto);
-				});	//getJSON	
-
-
-			}); //.on
-		} //main
-
-	</script>
+				});//getJSON
+		}
 	
-
+	
+	
+	
+		/**
+		* Cualquiera de estos te sirve para la primera carga
+		*
+		* comenta y descomenta... estas 3 lineas
+		**/
+		$(document).ready(function(){
+		//$(function(){
+		//$(()=>{
+			console.log('Pagina cargada');
+			
+			$("#b").val('zoo');
+			
+			
+			
+			
+			$('#buscar').on('click', function() {
+			//$('#buscar').click(function() {
+			
+				console.log('.click() para el boton' );				
+				cargarImagenes();
+			});
+			
+		});
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" id="b">
+			</div>
+			<div class="col-sm-3">
+				<input type="button" id="buscar" value="Buscar">
+			</div>
+		</div>
+		
+		<div id="imagenes" class="row"></div>
+	</div>
 </body>
 </html>
